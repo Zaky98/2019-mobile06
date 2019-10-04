@@ -7,14 +7,30 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+import id.ac.polinema.idealbodyweight.fragments.AboutFragment;
+import id.ac.polinema.idealbodyweight.fragments.Broca_Index_Fragment;
+import id.ac.polinema.idealbodyweight.fragments.MenuFragment;
 
-	// Deklarasikan atribut Fragment di sini
+public class MainActivity extends AppCompatActivity implements
+        MenuFragment.OnFragmentInteractionListener,
+        Broca_Index_Fragment.OnFragmentInteractionListener {
+
+	private AboutFragment aboutFragment;
+    private Broca_Index_Fragment brocaIndexFragment;
+
+
+	MenuFragment menuFragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		menuFragment = new MenuFragment();
+        brocaIndexFragment = new Broca_Index_Fragment();
+		aboutFragment = AboutFragment.newInstance("Zaky Maula Luthfansa");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.fragment_container, menuFragment)
+				.commit();
 	}
 
 	@Override
@@ -26,7 +42,29 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 		// TODO: Tambahkan penanganan menu di sini
-
+		if (item.getItemId() == R.id.menu_about) {
+			getSupportFragmentManager().beginTransaction()
+					.replace(R.id.fragment_container, aboutFragment)
+					.addToBackStack(null)
+					.commit();
+		}
 		return super.onOptionsItemSelected(item);
 	}
+
+    @Override
+    public void onBrocaIndexButtonClicked() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, brocaIndexFragment)
+                .commit();
+    }
+
+	@Override
+	public void onBodyMassIndexButtonClicked() {
+
+	}
+
+    @Override
+    public void onCalculateBrocaIndexClicked(float index) {
+
+    }
 }
